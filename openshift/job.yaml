@@ -1,0 +1,33 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: sample-data
+data:
+  sample-data.csv: |
+    Jill,Doe
+    Joe,Doe
+    Justin,Doe
+    Jane,Doe
+    John,Doe
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-spring-batch
+spec:
+  template:
+    spec:
+      volumes:
+        - name: sample-data
+          configMap:
+            name: sample-data
+            defaultMode: 420
+      restartPolicy: Never
+      containers:
+        - name: job-spring-batch
+          image: image-registry.openshift-image-registry.svc:5000/batch/spring-batch:latest
+          volumeMounts:
+            - name: sample-data
+              mountPath: /home/jboss/sample-data.csv
+              subPath: sample-data.csv
