@@ -10,6 +10,7 @@ data:
     Justin,Doe
     Jane,Doe
     John,Doe
+    José,Doe
 ---
 apiVersion: batch/v1
 kind: Job
